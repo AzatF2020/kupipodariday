@@ -7,17 +7,17 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    private configService: ConfigService,
+    public configService: ConfigService,
     private usersService: UsersService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretKey: configService.get<string>('SECRET_KEY'),
+      secretOrKey: configService.get<string>('SECRET_KEY'),
     });
   }
 
   async validate(jwtPayload: { sub: number }) {
-    const user = await this.usersService.findOne(jwtPayload.sub);
+    const user = await this.usersService.findById(jwtPayload.sub);
 
     if (!user) {
       throw UnauthorizedException;
