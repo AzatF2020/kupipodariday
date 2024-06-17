@@ -7,7 +7,7 @@ import { Offers } from 'src/offers/entities/offers.enitity';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
 @Injectable()
-export class PostgreDatabaseService implements TypeOrmOptionsFactory {
+export class PostgresDatabaseService implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {

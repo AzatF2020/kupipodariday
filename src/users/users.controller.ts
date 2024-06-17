@@ -1,4 +1,12 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtGuard } from 'src/auth/auth.guard';
 
@@ -8,15 +16,28 @@ export class UsersController {
 
   @UseGuards(JwtGuard)
   @Get('/me')
-  async profile(@Req() request) {
-    const user = request.user;
+  async getMeInfo(@Req() request) {
+    const userId = await request.user.id;
+    return this.userService.findById(userId);
+  }
 
-    return 'logged as' + JSON.stringify(user);
+  @UseGuards(JwtGuard)
+  @Patch('/me')
+  async updateMeInfo(@Req() request, @Body() body) {
+    const user = await request.user;
+    return this.userService.update(user, body);
+  }
+
+  @UseGuards(JwtGuard)
+  @Get(':username')
+  async findUserByUsername(@Param() params: { username: string }) {
+    const username = params?.username;
+    return this.userService.findBy('username', username);
   }
 
   @UseGuards(JwtGuard)
   @Get('/')
-  async users() {
+  async getAllUsers() {
     return this.userService.findAll();
   }
 }

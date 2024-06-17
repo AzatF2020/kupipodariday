@@ -1,0 +1,6 @@
+{
+  "INVALID_STRING": "{property} должен быть строкой",
+  "NOT_EMPTY": "{property} не может быть пустым",
+  "INVALID_EMAIL": "{property} должен быть почтовым адресом",
+  "INVALID_URL": "{property} должен быть адресом URL"
+}
